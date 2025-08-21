@@ -4,7 +4,17 @@ import (
 	"slices"
 )
 
-// Qn robust scale estimator, used e.g. in eddy covariance
+// Qn robust scale estimator, used e.g. in eddy covariance. The implementation is a direct
+// translation of the original FORTRAN code in
+//
+// Croux, C.,Rousseeuw, P.J., 1992, "Time-efficient algorithms for two highly robust estimators of scale",
+// in Computational Statistics, Volume 1, 1992, eds.Dodge, Y., Whittaker, J., Physica-Verlag
+//
+// with some additions by me, namely the function 'kthOrder' for computing the k-th order
+// statistics of a slice
+//
+// As you will see, the code organization is very old-FORTRAN-style: I preferred to maintain
+// its spirit, in sake of ease of mapping with the original code.
 func Qn(y []float64) float64 {
 
 	n := len(y)
@@ -80,6 +90,8 @@ func Qn(y []float64) float64 {
 				QnValue = trial
 				found = true
 			}
+		} else {
+			break
 		}
 	}
 	if !found {
