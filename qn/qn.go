@@ -4,6 +4,7 @@ import (
 	"slices"
 )
 
+// Qn robust scale estimator, used e.g. in eddy covariance
 func Qn(y []float64) float64 {
 
 	n := len(y)
